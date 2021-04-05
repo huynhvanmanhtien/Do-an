@@ -57,21 +57,6 @@
   copy: src=nagios.cfg dest=/etc/nagios/nagios.cfg
   become: true
 
-- name: Generate the nagios conf.d directory
-  file:
-    path: /etc/nagios/conf.d
-    state: directory
-
-- name: Generate the nagios monitoring templates
-  template: src={{ item + ".j2" }}
-            dest=/etc/nagios/conf.d/{{ item }}
-            force=yes
-  with_items:
-    - servers.cfg
-    - commands.cfg
-  register: nagios_needs_restart
-  become: true
-
 - name: Generate the nagios contact template and localhost config
   template: src={{ item + ".j2" }}
             dest=/etc/nagios/objects/{{ item }}
@@ -79,6 +64,7 @@
   with_items:
     - contacts.cfg
     - localhost.cfg
+    - servers.cfg
   become: true
 
 - name: Generate additional commands.cfg from template
@@ -184,7 +170,6 @@
 
 - name: Start nagios service
   command: systemctl restart nagios.service
-  when: nagios_needs_restart != 0
   become: true
 
 - name: Set nagios to start on boot
@@ -195,12 +180,10 @@
 - name: Setup HTTPD service
   command: systemctl enable httpd.service
   ignore_errors: true
-  when: nagios_needs_restart !=0
   become: true
 
 - name: Restart HTTPD service
   command: systemctl restart httpd.service
   ignore_errors: true
-  when: nagios_needs_restart !=0
   become: true
 

@@ -167,4 +167,16 @@ define command {
     command_line    /usr/bin/printf "%b" "$LASTSERVICECHECK$\t$HOSTNAME$\t$SERVICEDESC$\t$SERVICESTATE$\t$SERVICEATTEMPT$\t$SERVICESTATETYPE$\t$SERVICEEXECUTIONTIME$\t$SERVICELATENCY$\t$SERVICEOUTPUT$\t$SERVICEPERFDATA$\n" >> /var/log/nagios/service-perfdata.out
 }
 
+define command {
+        command_name                   check_nrpe
+        command_line                   /usr/lib64/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
 
+define command{
+        command_name    check_uptime
+        command_line    /usr/lib64/nagios/plugins/check_uptime
+}
+define command{
+        command_name    check_ddos
+        command_line    $USER1$/check_ddos.pl -w $ARG1$ -c $ARG2$
+}
