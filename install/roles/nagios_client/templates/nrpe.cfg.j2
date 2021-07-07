@@ -74,7 +74,11 @@ nrpe_group=nrpe
 
 ## This needs to be generated for inventory
 
-allowed_hosts=127.0.0.1,{{ nagios_server }}
+{% for host in groups['nagios'] %}
+
+allowed_hosts=127.0.0.1,{{ hostvars[host].ansible_default_ipv4.address }}
+
+{% endfor %}
 
 
 # COMMAND ARGUMENT PROCESSING
