@@ -2,6 +2,7 @@
 ---
 ansible_system_user: root
 
+nagios_server: 192.168.240.190
 nagios_plugin_path: /usr/lib64/nagios/plugins
 nagios_username: admin
 nagios_password: admin
