@@ -1,0 +1,6 @@
+[nagios]
+Nagios-Server ansible_host=192.168.175.140
+
+[servers]
+Client ansible_host=192.168.175.142
+#Ansible-Server ansible_host=192.168.175.139

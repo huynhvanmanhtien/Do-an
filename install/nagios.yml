@@ -1,0 +1,11 @@
+---
+- hosts: servers
+  remote_user: "{{ ansible_system_user }}"
+  roles:
+    - { role: nagios_client }
+
+- hosts: nagios
+  remote_user: "{{ ansible_system_user }}"
+  roles:
+    - { role: nagios }
+
